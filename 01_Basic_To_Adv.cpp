@@ -27,7 +27,7 @@ using namespace std ;
   Our goal is to get every digit one by one.
   
 
-                                        #   A P P R O C H   #
+                                  #   A P P R O A C H   #
 Step 1: Take the last digit
   
   We use :-> n % 10
@@ -163,3 +163,86 @@ Step 4 : Again
         return count ;
     }
  }; 
+
+
+
+/*7. Reverse Integer
+  Given a signed 32-bit integer x, return x with its digits reversed. If reversing x   causes the value to go outside the signed 32-bit integer range [-231, 231 - 1],   then return 0.
+  
+  Assume the environment does not allow you to store 64-bit integers (signed or   unsigned).
+   
+ Example 1:
+  Input: x = 123
+  Output: 321
+
+ Example 2: 
+  Input: x = -123
+  Output: -321*/
+                 
+     //#   Same approach as above problems
+  class Solution {
+  public:  
+        int reverse(int x) {
+        int rev = 0 ;
+
+        while(x !=0){
+            int lastDigit = x % 10 ;
+            rev = rev * 10 + lastDigit ;  // rev = 0 * 10 + 3 = 3       =->         rev = 3 * 10 + 2 = 32   ->   rev = 32 * 10 + 1 = 321
+            x = x / 10 ;
+        }
+        return rev ;
+      }
+  }; 
+  /*  ab ye run tho ho jayega  liken jab submit karenge tho error ayegi  becoz   [-2^31, 2^31 - 1 ]  range  agr esek baha hua tho ans ko =  0 return karna hoga  isliye  ek exception case bana hoga  or usko handle karna hoga  
+   
+    rev*10 + lastDigit > INT_MAX  or  rev*10 + lastDigit < INT_MIN  tho return 0 karna hoga  or ye dono condition ko ek sath bhi likh sakte h  (rev > INT_MAX/10 || rev < INT_MIN/10)  tho return 0 karna hoga   */
+
+  #include <climits>  // for INT_MAX and INT_MIN 
+  class Solution {
+  public:  
+        int reverse(int x) {
+        int rev = 0 ;
+
+        while(x !=0){
+            int lastDigit = x % 10 ;
+            if(rev > INT_MAX/10 || rev < INT_MIN/10){
+               return 0 ;
+            }
+            rev = rev * 10 + lastDigit ; 
+            x = x / 10 ;
+        }
+        return rev ;
+      }
+  }; 
+
+
+
+/*1009. Complement of Base 10 Integer
+
+  The complement of an integer is the integer you get when you flip all the 0's to   1's and all the 1's to 0's in its binary representation.
+  
+  For example, The integer 5 is "101" in binary and its complement is "010" which is   the integer 2.
+  Given an integer n, return its complement.
+  
+  Example 1:
+  
+  Input: n = 5
+  Output: 2
+  Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in   base-10.*/
+
+  class Solution {
+  public:
+   int bitwiseComplete(int n){
+    int m = n ;
+    int mask = 0 ;
+
+    if(n == 0){
+        return 1 ;
+    }
+    while(m != 0){
+        mask = (mask << 1) | 1 ;   // mask = 0 << 1 | 1 = 1    mask = 1 << 1 | 1 = 3     mask = 3 << 1 | 1 = 7
+        m = m >> 1 ;
+    }
+    return n ^ mask ;  // 5 ^ 7 = 2
+   }
+  };
